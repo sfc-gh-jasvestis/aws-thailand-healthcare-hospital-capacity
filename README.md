@@ -9,7 +9,6 @@ Thailand's private hospital group operates 12 hospitals with 3,200 beds — but 
 ```mermaid
 flowchart LR
     KIN[Kinesis] --> SPS[Snowpipe Streaming]
-    SP --> RAW[RAW Tables]
     SPS --> RAW
     RAW --> DT[Dynamic Tables]
     DT --> ML[ML Functions]
