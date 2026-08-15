@@ -1,0 +1,122 @@
+{
+  "title": "Hospital Capacity & Revenue Optimization",
+  "duration": "4 minutes",
+  "thesis": "Snowflake forecasts hospital admissions, optimizes bed allocation, and predicts revenue \u2014 replacing reactive capacity management with proactive ML-driven planning across 12 private hospitals",
+  "tabs": [
+    {
+      "id": "executive-cockpit",
+      "persona": {
+        "name": "Dr. Thanaporn Pongcharoen",
+        "role": "Group COO",
+        "avatar": "\ud83d\udc69\u200d\u2695\ufe0f"
+      },
+      "talking_points": [
+        "Group bed utilization at 84% \u2014 3 hospitals above 90% (capacity risk).",
+        "Revenue per bed-day: \u0e3f18,500 average (target: \u0e3f22,000) \u2014 \u0e3f1.4B annual gap.",
+        "Cancellation rate: 8.2% \u2014 costing \u0e3f340M in lost revenue opportunity."
+      ],
+      "show": [
+        "Point at utilization gauge by hospital",
+        "Highlight revenue gap KPI",
+        "Note cancellation cost badge"
+      ],
+      "call_out": "\u0e3f1.4B revenue gap \u2014 3 hospitals at capacity risk",
+      "transition": {
+        "next_tab": "admission-forecasts",
+        "line": "Let's see what the admission forecasts predict for this week."
+      }
+    },
+    {
+      "id": "admission-forecasts",
+      "persona": {
+        "name": "Worawit Thammachot",
+        "role": "Hospital Operations Director",
+        "avatar": "\ud83d\udc68\u200d\ud83d\udcbc"
+      },
+      "talking_points": [
+        "ML.FORECAST predicts admissions 14 days ahead by hospital and department.",
+        "Bangkok General Hospital: predicted 92% utilization by Friday \u2014 defer non-urgent electives.",
+        "Chiang Mai hospital has capacity headroom \u2014 redirect international patients."
+      ],
+      "show": [
+        "Show 14-day admission forecast by hospital",
+        "Click Bangkok General for department detail",
+        "Show capacity optimization recommendations"
+      ],
+      "call_out": "14-day admission forecast enables proactive bed management",
+      "transition": {
+        "next_tab": "revenue-optimization",
+        "line": "How do we optimize revenue within capacity constraints?"
+      }
+    },
+    {
+      "id": "revenue-optimization",
+      "persona": {
+        "name": "Worawit Thammachot",
+        "role": "Hospital Operations Director",
+        "avatar": "\ud83d\udc68\u200d\ud83d\udcbc"
+      },
+      "talking_points": [
+        "Revenue per bed-day varies 3x between departments: cardiac \u0e3f45K vs general \u0e3f15K.",
+        "AI recommends: shift elective orthopedics from Bangkok to Samut Prakan (saves beds for cardiac).",
+        "Dynamic table auto-calculates optimal case mix to maximize revenue within capacity."
+      ],
+      "show": [
+        "Show revenue-per-bed-day by department",
+        "Display optimization recommendation",
+        "Show case-mix simulation results"
+      ],
+      "call_out": "Optimal case mix + capacity allocation = \u0e3f1.4B revenue uplift potential",
+      "transition": {
+        "next_tab": "ask-ai",
+        "line": "Now let the COO ask the system directly."
+      }
+    },
+    {
+      "id": "ask-ai",
+      "persona": {
+        "name": "Dr. Thanaporn Pongcharoen",
+        "role": "Group COO",
+        "avatar": "\ud83d\udc69\u200d\u2695\ufe0f"
+      },
+      "talking_points": [
+        "Dr. Thanaporn asks: 'Which hospital should we expand capacity at?'",
+        "Cortex Analyst: Bangkok General (92% util, highest RPP, wait list growing). ROI: 24 months.",
+        "Switch to advisor: 'What's our cancellation root cause and how to reduce it?' \u2014 analyzes patterns and recommends interventions."
+      ],
+      "show": [
+        "Type: 'Which hospital should we expand capacity?'",
+        "Show SQL + ROI analysis",
+        "Switch to advisor mode"
+      ],
+      "call_out": "Two AI modes: SQL analytics + strategic capacity advisory",
+      "transition": {
+        "next_tab": "architecture",
+        "line": "Every capability \u2014 native Snowflake SQL."
+      }
+    },
+    {
+      "id": "architecture",
+      "persona": {
+        "name": "Dr. Thanaporn Pongcharoen",
+        "role": "Group COO",
+        "avatar": "\ud83d\udc69\u200d\u2695\ufe0f"
+      },
+      "talking_points": [
+        "Seven Snowflake capabilities, six AWS services.",
+        "Kinesis streams bed census; ML.FORECAST predicts admissions; Alerts trigger when capacity critical.",
+        "Thai private healthcare: \u0e3f280B market. This optimizes 12 hospitals, 3,200 beds."
+      ],
+      "show": [
+        "Walk through architecture diagram",
+        "Toggle dual-build mode",
+        "Point at real-time census pipeline"
+      ],
+      "call_out": "Real-time bed intelligence \u2014 from ADT event to capacity decision",
+      "transition": {
+        "next_tab": "",
+        "line": "That's Snowflake and AWS \u2014 better together for Thai hospital operations."
+      }
+    }
+  ]
+}
