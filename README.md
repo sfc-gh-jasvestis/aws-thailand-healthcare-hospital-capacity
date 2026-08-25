@@ -123,7 +123,7 @@ Industry research and Snowflake customer outcomes:
 - **ML-powered capacity planning improves bed utilization by 8-15% and reduces cancellations by 25%** — [McKinsey Healthcare Operations](https://www.mckinsey.com/industries/healthcare/our-insights)
 - **Bangkok Dusit Medical Services (BDMS) operates 50 hospitals with 8,400 beds across Thailand** — [BDMS](https://www.bdms.co.th/en)
 - **Optimized surgical scheduling increases OR revenue by 15-20% without additional capacity** — [Harvard Business Review Health](https://hbr.org/topic/health)
-
+- **Sanofi** (Snowflake customer): 50% performance improvement, processing 100M patient records in 4 minutes on Snowflake -- [snowflake.com/customers/sanofi](https://www.snowflake.com/en/customers/all-customers/case-study/sanofi/)
 
 ## Key Demo Numbers
 
