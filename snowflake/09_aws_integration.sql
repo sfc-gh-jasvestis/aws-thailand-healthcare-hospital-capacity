@@ -1,6 +1,6 @@
 -- ============================================================================
 -- 09_AWS_INTEGRATION.SQL — AWS services for Hospital Capacity & Revenue Optimization
--- Account: 018437500440 | Region: ap-southeast-1
+-- Account: <YOUR_AWS_ACCOUNT_ID> | Region: ap-southeast-1
 -- Skip this script for Snowflake-only build
 -- ============================================================================
 USE DATABASE HOSPITAL_CAPACITY;
@@ -72,11 +72,11 @@ CREATE OR REPLACE EXTERNAL ACCESS INTEGRATION aws_thailand_healthcare_hospital_c
   ENABLED = TRUE
   COMMENT = 'SNS access for Hospital Capacity & Revenue Optimization alerts';
 
--- SNS Topic ARN: arn:aws:sns:ap-southeast-1:018437500440:sea-demos-aws-thailand-healthcare-hospital-capacity
+-- SNS Topic ARN: arn:aws:sns:ap-southeast-1:<YOUR_AWS_ACCOUNT_ID>:sea-demos-aws-thailand-healthcare-hospital-capacity
 
 -- ==================== KINESIS / IOT CORE INGESTION ====================
 -- Snowpipe from Kinesis Data Stream
--- Stream ARN: arn:aws:kinesis:ap-southeast-1:018437500440:stream/aws-thailand-healthcare-hospital-capacity-stream
+-- Stream ARN: arn:aws:kinesis:ap-southeast-1:<YOUR_AWS_ACCOUNT_ID>:stream/aws-thailand-healthcare-hospital-capacity-stream
 
 CREATE OR REPLACE PIPE RAW.REALTIME_PIPE
   AUTO_INGEST = TRUE
