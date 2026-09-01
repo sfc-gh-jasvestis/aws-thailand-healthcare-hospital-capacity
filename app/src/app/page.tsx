@@ -32,15 +32,23 @@ export default function HomePage() {
       .catch(() => {});
   }, []);
 
+
+  // Look up a KPI value returned by /api/data (sourced from CURATED.KPI_SUMMARY).
+  // Falls back to the original literal so the card still renders if the API,
+  // or KPI_SUMMARY, is unavailable.
+  const kpiVal = (title: string, fallback: string): string =>
+    (data?.kpiCards as { title: string; value: string }[] | undefined)
+      ?.find((k) => k.title === title)?.value ?? fallback;
+
   const title = narrative?.title || 'SEA AWS Demo';
 
   const executiveCockpit = (
     <div className="space-y-6">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <KPICard title="Bed Occupancy" value="84.2%" status="warning" />
-        <KPICard title="ICU Availability" value="12 beds" status="danger" />
-        <KPICard title="Avg Length of Stay" value="4.2 days" status="neutral" />
-        <KPICard title="Facilities Monitored" value="124" status="neutral" />
+        <KPICard title="Bed Occupancy" value={kpiVal('Bed Occupancy', '84.2%')} status="warning" />
+        <KPICard title="ICU Availability" value={kpiVal('ICU Availability', '12 beds')} status="danger" />
+        <KPICard title="Avg Length of Stay" value={kpiVal('Avg Length of Stay', '4.2 days')} status="neutral" />
+        <KPICard title="Facilities Monitored" value={kpiVal('Facilities Monitored', '124')} status="neutral" />
       </div>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div className="lg:col-span-1">
@@ -87,9 +95,9 @@ export default function HomePage() {
   const domainTab1 = (
     <div className="space-y-6">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <KPICard title="Predicted Surge (7d)" value="+8%" />
-        <KPICard title="Surgery Queue" value="342" />
-        <KPICard title="ER Wait (Avg)" value="47 min" />
+        <KPICard title="Predicted Surge (7d)" value={kpiVal('Predicted Surge (7d)', '+8%')} />
+        <KPICard title="Surgery Queue" value={kpiVal('Surgery Queue', '342')} />
+        <KPICard title="ER Wait (Avg)" value={kpiVal('ER Wait (Avg)', '47 min')} />
       </div>
       <Chart
         data={data?.detail || [{ x: 'Mon', y: 24 }, { x: 'Tue', y: 28 }, { x: 'Wed', y: 22 }, { x: 'Thu', y: 31 }, { x: 'Fri', y: 26 }, { x: 'Sat', y: 19 }, { x: 'Sun', y: 23 }]}
