@@ -1,16 +1,13 @@
--- ============================================================================
--- Hospital Capacity & Revenue Optimization
--- Hospital capacity intelligence for 12 Thai private hospitals — Kinesis streams bed census data, ML.FORECAST predicts admissions 14 days ahead, and Alerts notify operations when capacity thresholds are breached.
--- ============================================================================
-USE ROLE ACCOUNTADMIN;
-CREATE DATABASE IF NOT EXISTS HOSPITAL_CAPACITY;
-CREATE WAREHOUSE IF NOT EXISTS HOSPITAL_WH WAREHOUSE_SIZE = 'MEDIUM' AUTO_SUSPEND = 120 AUTO_RESUME = TRUE;
-USE DATABASE HOSPITAL_CAPACITY;
-CREATE SCHEMA IF NOT EXISTS RAW;
-CREATE SCHEMA IF NOT EXISTS CURATED;
-CREATE SCHEMA IF NOT EXISTS ML;
-CREATE SCHEMA IF NOT EXISTS AI;
-CREATE SCHEMA IF NOT EXISTS SEARCH;
-CREATE SCHEMA IF NOT EXISTS APP;
+-- Generated from generator/demo_specs/aws-thailand-healthcare-hospital-capacity.json
+-- Regenerate with: python3 generator/gen_repo_docs.py aws-thailand-healthcare-hospital-capacity
+-- This is the schema that is actually deployed for THAILAND_HEALTHCARE_HOSPITAL_CAPACITY.
 
-USE WAREHOUSE HOSPITAL_WH;
+-- THAILAND_HEALTHCARE_HOSPITAL_CAPACITY  (Hospital Capacity & Revenue Optimization)
+-- generated from generator/demo_specs/aws-thailand-healthcare-hospital-capacity.json - do not hand-edit
+CREATE DATABASE IF NOT EXISTS THAILAND_HEALTHCARE_HOSPITAL_CAPACITY;
+CREATE SCHEMA IF NOT EXISTS THAILAND_HEALTHCARE_HOSPITAL_CAPACITY.RAW;
+CREATE SCHEMA IF NOT EXISTS THAILAND_HEALTHCARE_HOSPITAL_CAPACITY.CURATED;
+CREATE SCHEMA IF NOT EXISTS THAILAND_HEALTHCARE_HOSPITAL_CAPACITY.APP;
+USE DATABASE THAILAND_HEALTHCARE_HOSPITAL_CAPACITY;
+
+-- 5 real regions; entity names carry their region so the two always agree
