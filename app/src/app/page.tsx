@@ -54,6 +54,7 @@ export default function HomePage() {
         <div className="lg:col-span-1">
           <GeoMap
             country="thailand"
+            labels={{ entity: 'Hospitals', event: 'Bed Census', alert: 'Capacity Alerts' }}
             regions={data?.regions}
             markers={[{"label": "Bangkok", "value": "Ramathibodi: ICU 92%", "color": "red", "size": "lg"}, {"label": "Chiang Mai", "value": "Provincial: 78%", "color": "amber", "size": "md"}, {"label": "Khon Kaen", "value": "Regional: 64%", "color": "green", "size": "md"}, {"label": "Phuket", "value": "International: 72%", "color": "amber", "size": "sm"}]}
             routes={[]}
@@ -84,8 +85,13 @@ export default function HomePage() {
         columns={[
           { key: 'id', header: '#' },
           { key: 'name', header: 'Hospital' },
+          { key: 'region', header: 'Region' },
           { key: 'status', header: 'Capacity' },
-          { key: 'value', header: 'Occupancy %' },
+          { key: 'm1', header: 'Occupancy %' },
+          { key: 'm2', header: 'Icu Availability' },
+          { key: 'm3', header: 'Length of Stay' },
+          { key: 'events', header: 'Bed Census' },
+          { key: 'alerts', header: 'Capacity Alerts' },
         ]}
         data={data?.entities || []}
         title="Hospital Capacity Dashboard"
