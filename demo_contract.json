@@ -1,0 +1,83 @@
+{
+  "version": 1,
+  "repo": "aws-thailand-healthcare-hospital-capacity",
+  "operation": "on-demand",
+  "data_classification": "synthetic demonstration only; ward-level aggregates, no patient data or patient identifiers",
+  "grains": {
+    "RAW.WARDS": "one row per hospital ward",
+    "RAW.WARD_DAILY": "one row per ward per day (90 days)",
+    "RAW.EQUIPMENT_FLEET": "one row per ward (bedside equipment snapshot)",
+    "CURATED.PERFORMANCE_SUMMARY": "one row per ward",
+    "CURATED.TREND_ANALYSIS": "one row per day",
+    "CURATED.DRIVER_SUMMARY": "one row per pressure driver",
+    "CURATED.KPI_SUMMARY": "one row per KPI",
+    "ML.OVERFLOW_RISK_SCORES": "one row per ward (latest day)"
+  },
+  "metrics": {
+    "Admissions vs Plan": "100 * SUM(ADMISSION_COUNT) / SUM(RAW.WARDS.PLANNED_ADMISSIONS_90D)",
+    "Admissions": "SUM(ADMISSION_COUNT)",
+    "Bed Occupancy": "100 * SUM(OCCUPIED_BEDS) / SUM(STAFFED_BEDS) over ward-days",
+    "Admissions Placed Outside Target": "100 * (SUM(ADMISSION_COUNT) - SUM(IN_TARGET_COUNT)) / SUM(ADMISSION_COUNT)",
+    "Escalation Confirmation Rate": "100 * SUM(OVERFLOW_COUNT) / SUM(ESCALATION_COUNT)",
+    "Bed-Management Escalations": "SUM(ESCALATION_COUNT)",
+    "Confirmed Capacity Overflows": "SUM(OVERFLOW_COUNT)",
+    "Overflow Reviews Opened": "SUM(REVIEW_OPENED)",
+    "Bed-Flow Audit Compliance": "100 * SUM(AUDIT_COMPLETED) / SUM(AUDIT_DUE)",
+    "Wards Active": "COUNT(RAW.WARDS)",
+    "Staffed Beds": "SUM(RAW.WARDS.STAFFED_BEDS)",
+    "Equipment Safety Check Coverage": "100 * SUM(UNITS_CHECKED) / SUM(UNITS_INSTALLED)",
+    "Equipment Checks Pending": "SUM(CHECKS_PENDING)",
+    "Average Boarding Time": "AVG(BOARDING_HOURS), hours",
+    "Awaiting a Bed (ward-day total)": "SUM(AWAITING_BED)"
+  },
+  "chart_bindings": {
+    "daily_admissions_escalations": [
+      "CURATED.TREND_ANALYSIS.METRIC_DATE",
+      "ADMISSION_COUNT",
+      "ESCALATION_COUNT"
+    ],
+    "escalations_by_driver": [
+      "CURATED.DRIVER_SUMMARY.PRESSURE_DRIVER",
+      "ESCALATION_COUNT",
+      "OVERFLOW_COUNT"
+    ],
+    "audit_vs_overflows": [
+      "CURATED.PERFORMANCE_SUMMARY.AUDIT_COMPLIANCE_PCT",
+      "OVERFLOW_COUNT"
+    ],
+    "quicksight_overflow_risk": [
+      "ENTITY_ID",
+      "MAX(OVERFLOW_PROB_7D)"
+    ]
+  },
+  "freshness": "MAX(EVENT_DATE) is an observation watermark; requestedAt is not freshness",
+  "required_capabilities": {
+    "core_pipeline": "Curated KPIs reconcile to a RAW recomputation (run_core.py checks this on every build)",
+    "forecast_and_anomaly": "14-day FORECAST of admissions; boarding-time ANOMALY_DETECTION (train 75 days, detect last 15)",
+    "search": "Cortex Search SEARCH.WARD_SOP_SEARCH over synthetic bed-flow SOPs (one per ward type and pressure driver)",
+    "semantic_analytics": "Semantic view APP.HOSPITAL_CAPACITY_ANALYTICS and Cortex Agent APP.HOSPITAL_CAPACITY_AGENT using analyst + search tools",
+    "grounded_ai": "Agent answers return generated SQL and SOP citations; the action memo uses only KPI, ward, pressure-driver and risk rows",
+    "quicksight": "DIRECT_QUERY dashboard (wards, daily admissions and escalations, confirmed capacity overflows by ward, overflow risk, census events loaded) through a read-only Snowflake service user",
+    "quicksight_q": "Amazon Q topic over the curated datasets for natural-language questions",
+    "aws_ingestion": "Amazon Data Firehose -> S3 -> Snowpipe AUTO_INGEST into RAW.LIVE_CENSUS",
+    "notifications": "APP.LIVE_CENSUS_ALERT logs new ALERT events to APP.ALERT_LOG and emails via SYSTEM$SEND_EMAIL; alert and tasks suspended between demos",
+    "orchestration": "Task graph APP.TASK_REFRESH_CURATED -> APP.TASK_RESCORE_RISK run on demand (EXECUTE TASK)",
+    "app_deployment": "SPCS service APP.TH_HEALTHCARE_HOSPITAL_CAPACITY_APP; routes /api/data, /api/ask, /api/agent",
+    "overflow_risk_model": "Snowflake ML CLASSIFICATION of P(confirmed capacity overflow in next 7 days) per ward, evaluated on an out-of-time holdout; operational, not diagnostic or clinical"
+  },
+  "builds": {
+    "snowflake": {
+      "database": "THAILAND_HEALTHCARE_HOSPITAL_CAPACITY_SNOWFLAKE",
+      "app_setting": "DEMO_PLATFORM=snowflake",
+      "memo": "Cortex AI_COMPLETE (claude-sonnet-4-5)",
+      "live_census": "APP.SIMULATE_CENSUS(n)"
+    },
+    "aws": {
+      "database": "THAILAND_HEALTHCARE_HOSPITAL_CAPACITY_AWS",
+      "app_setting": "DEMO_PLATFORM=aws",
+      "memo": "Amazon Bedrock Claude Sonnet 4.5 via APP.BEDROCK_GENERATE",
+      "capabilities": "see required_capabilities",
+      "live_census": "Amazon Data Firehose -> S3 -> Snowpipe"
+    }
+  }
+}
